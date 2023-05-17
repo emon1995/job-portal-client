@@ -13,6 +13,15 @@ const Jobs = () => {
     setActiveTab(tabName);
   };
 
+  useEffect(() => {
+    fetch(`http://localhost:5000/allJobsByCategory/${activeTab}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setJob(data);
+        console.log(data);
+      });
+  }, [activeTab]);
+
   return (
     <div>
       <h1 className="title text-center mt-5 p-5">Available Job's</h1>
@@ -38,7 +47,11 @@ const Jobs = () => {
           </div>
         </div>
       </div>
-      <div className="jobs-container mt-5 row"></div>
+      <div className="jobs-container mt-5 row">
+        {jobs?.map((job) => (
+          <Job key={job._id} job={job}></Job>
+        ))}
+      </div>
     </div>
   );
 };
